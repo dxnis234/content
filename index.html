@@ -1148,5 +1148,40 @@
 
   gtag('config', 'G-2JPSQJR9W4');
 </script>
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+      const form = document.querySelector(".cta-form");
+    
+      form.addEventListener("submit", async function(e) {
+        e.preventDefault();
+        const formData = new FormData(form);
+        const response = await fetch(form.action, {
+          method: form.method,
+          body: formData,
+          headers: { 'Accept': 'application/json' }
+        });
+    
+        if (response.ok) {
+          // 🔹 Trimitem evenimentul către Google Analytics
+          if (typeof gtag === "function") {
+            gtag('event', 'form_submit', {
+              event_category: 'Lead',
+              event_label: 'CTA Email Form',
+              value: 1
+            });
+          }
+    
+          // 🔹 Afișăm mesajul vizual
+          form.innerHTML = `
+            <div style="text-align:center; padding:30px;">
+              <h3 style="color:#00FF88;">✅ Mulțumim!</h3>
+              <p>Te-ai înscris cu succes pe lista de acces anticipat.<br>Vei primi un email la lansare.</p>
+            </div>`;
+        } else {
+          alert("A apărut o eroare. Încearcă din nou mai târziu.");
+        }
+      });
+    });
+    </script>
 </body>
 </html>
