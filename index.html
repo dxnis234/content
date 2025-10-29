@@ -1128,11 +1128,20 @@
                 });
         
                 if (response.ok) {
-                  form.innerHTML = `
-                    <div style="text-align:center; padding:30px;">
-                      <h3 style="color:#00FF88;">✅ Mulțumim!</h3>
-                      <p>Te-ai înscris cu succes pe lista de acces anticipat.<br>Vei primi un email la lansare.</p>
-                    </div>`;
+  form.innerHTML = `
+    <div style="text-align:center; padding:30px;">
+      <h3 style="color:#00FF88;">✅ Mulțumim!</h3>
+      <p>Te-ai înscris cu succes pe lista de acces anticipat.<br>Vei primi un email la lansare.</p>
+    </div>`;
+
+  // Trimitem evenimentul către Google Analytics doar dacă gtag există
+  if (typeof gtag === "function") {
+    gtag('event', 'form_submit', {
+      event_category: 'Lead',
+      event_label: 'CTA Email Form',
+      value: 1
+    });
+}
                 } else {
                   alert("A apărut o eroare. Încearcă din nou mai târziu.");
                 }
